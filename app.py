@@ -4,9 +4,9 @@ from kafka import KafkaProducer
 
 
 kafka_topic = "logs"
-kafka_producer = KafkaProducer(bootstrap_servers='localhost:9092')
+kafka_producer = KafkaProducer(bootstrap_servers='kafka:9092', api_version=(0, 10, 1))
 
-logger = logging.getLogger('__name__')
+logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
@@ -27,5 +27,5 @@ kafka_handler.setFormatter(formatter)
 logger.addHandler(kafka_handler)
 
 while True:
-    logger.info('This is a log message sent to Kafka.')
-    time.sleep(120)
+    logger.info('Log message streamed to Kafka.')
+    time.sleep(120) # every 2 mins

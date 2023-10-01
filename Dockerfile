@@ -8,4 +8,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD [ "python", "app.py" ]
+RUN chmod +x startapp.sh
+
+CMD [ "python", "-u", "app.py" ]
