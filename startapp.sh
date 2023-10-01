@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# Set your Kafka topic name
 KAFKA_TOPIC="logs"
 
-# Set your Kafka broker address
 KAFKA_BROKER="kafka:9092"
 
 # Function to check if a Kafka topic exists using Python
@@ -22,10 +20,8 @@ else:
 EOF
 }
 
-# Check if the Kafka topic exists
 if check_kafka_topic; then
     echo "Starting the application."
-    # Run your Python application here
     python -u app.py
 else
     echo "Waiting for Kafka topic '$KAFKA_TOPIC'."

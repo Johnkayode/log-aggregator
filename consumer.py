@@ -10,5 +10,5 @@ for message in kafka_consumer:
         # Process the received message
         print(f'Received message: {message.value.decode("utf-8")}')
 
-# Close the Kafka consumer when done
+
 kafka_consumer.close()
