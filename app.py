@@ -1,5 +1,6 @@
 import logging
 import time
+from uuid import uuid4
 from kafka import KafkaProducer
 
 
@@ -27,5 +28,6 @@ kafka_handler.setFormatter(formatter)
 logger.addHandler(kafka_handler)
 
 while True:
-    logger.info('Log message streamed to Kafka.')
+    txId = uuid4()
+    logger.info(f'Application processed transaction: {txId}')
     time.sleep(120) # every 2 mins

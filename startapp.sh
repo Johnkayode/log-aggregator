@@ -20,9 +20,10 @@ else:
 EOF
 }
 
-if check_kafka_topic; then
-    echo "Starting the application."
-    python -u app.py
-else
-    echo "Waiting for Kafka topic '$KAFKA_TOPIC'."
-fi
+while ! check_kafka_topic; do
+    echo "Waiting for Kafka topic '$KAFKA_TOPIC' to be created..."
+    sleep 5 
+done
+
+echo "Starting the application."
+python -u app.py
