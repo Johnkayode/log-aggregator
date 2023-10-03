@@ -1,6 +1,7 @@
 import logging
 import time
 from uuid import uuid4
+from random import randint
 from kafka import KafkaProducer
 
 
@@ -28,6 +29,14 @@ kafka_handler.setFormatter(formatter)
 logger.addHandler(kafka_handler)
 
 while True:
+    randomNum = randint(0,15)
     txId = uuid4()
-    logger.info(f'Application processed transaction: {txId}')
+    if(randomNum<=4):
+        logger.info(f'Application processed transaction: {txId}')
+    elif (randomNum>5 and randomNum<=8):
+        logger.warning(f'Transaction: {txId} is already being processed.')
+    elif (randomNum>8 and randomNum<=12):
+        logger.error(f'Application tried to process transaction: {txId} more than once.')
+    else:
+        logger.critical(f'Transaction processing service down.')
     time.sleep(120) # every 2 mins
