@@ -28,14 +28,14 @@ function check_elasticsearch_availability() {
     return $?
 }
 
-function wait_for_elk() {
+function wait_for_elasticsearch() {
     retries=0
     while [ $retries -lt 5 ]; do
         if check_elasticsearch_availability; then
-            echo "ELK container running."
+            echo "Elasticsearch container running."
             return 0
         else
-            echo "ELK container is not yet available. Retrying in 10 seconds..."
+            echo "Elasticsearch container is not yet available. Retrying in 10 seconds..."
             sleep 10
             retries=$((retries + 1))
         fi
@@ -52,7 +52,7 @@ while ! check_kafka_topic; do
     sleep 5 
 done
 
-wait_for_elk
+wait_for_elasticsearch
 # wait 10s for logstash to connect to elasticsearch
 sleep 10
 echo "Starting the application."
