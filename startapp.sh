@@ -5,7 +5,7 @@ KAFKA_TOPIC="logs"
 KAFKA_BROKER="kafka:9092"
 
 # Function to check if a Kafka topic exists using Python
-check_kafka_topic() {
+function check_kafka_topic() {
     python - <<EOF
 from kafka.admin import KafkaAdminClient
 
@@ -20,10 +20,40 @@ else:
 EOF
 }
 
+function check_elasticsearch_availability() {
+    elasticsearch_host="elasticsearch" 
+    elasticsearch_port=9200  
+
+    curl --head --silent "$elasticsearch_host:$elasticsearch_port" > /dev/null
+    return $?
+}
+
+function wait_for_elk() {
+    retries=0
+    while [ $retries -lt 5 ]; do
+        if check_elasticsearch_availability; then
+            echo "ELK container running."
+            return 0
+        else
+            echo "ELK container is not yet available. Retrying in 10 seconds..."
+            sleep 10
+            retries=$((retries + 1))
+        fi
+    done
+
+    echo "Maximum retry attempts reached. Exiting..."
+    exit 1
+}
+
+
+
 while ! check_kafka_topic; do
     echo "Waiting for Kafka topic '$KAFKA_TOPIC' to be created..."
     sleep 5 
 done
 
+wait_for_elk
+# wait 10s for logstash to connect to elasticsearch
+sleep 10
 echo "Starting the application."
 python -u app.py

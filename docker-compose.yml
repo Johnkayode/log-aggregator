@@ -11,6 +11,7 @@ services:
       - '50002:9093'
     depends_on:
       - zookeeper
+      - logstash
     environment:
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_LISTENERS: 'INTERNAL://:9092'
@@ -34,6 +35,7 @@ services:
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
     ulimits:
       memlock:
         soft: -1
@@ -66,7 +68,6 @@ services:
     build: .
     depends_on:
       - kafka
-      - logstash
     environment:
       - KAFKA_BROKER=kafka:9092
       - KAFKA_TOPIC=logs

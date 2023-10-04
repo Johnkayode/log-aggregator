@@ -1,3 +1,4 @@
+import json
 import logging
 import time
 from uuid import uuid4
@@ -12,6 +13,19 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
+class JsonFormatter(logging.Formatter):
+    def format(self, record: logging.LogRecord) -> str:
+        super(JsonFormatter, self).format(record)
+        log_data = {
+            'timestamp': self.formatTime(record, self.datefmt),
+            'name': record.name,
+            'level': record.levelname,
+            'file': record.filename,
+            'message': record.getMessage(),
+        }
+        return json.dumps(log_data)
+
+
 class KafkaHandler(logging.Handler):
     def emit(self, record):
         log_message = self.format(record)
@@ -23,7 +37,7 @@ class KafkaHandler(logging.Handler):
 
 kafka_handler = KafkaHandler()
 kafka_handler.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = JsonFormatter()
 kafka_handler.setFormatter(formatter)
 
 logger.addHandler(kafka_handler)
