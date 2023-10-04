@@ -5,7 +5,8 @@ Log aggregation pipeline with Kafka and ELK stack
 ![Data pipeline](https://github.com/Johnkayode/log-aggregator/blob/main/docs/architecture.png)
 
 ## Kibana Dashboard
-Log data visualization.
+Log data visualization:
+
 ![Kibana dashboard](https://github.com/Johnkayode/log-aggregator/blob/main/docs/kibana.png)
 
 ## Run Project
