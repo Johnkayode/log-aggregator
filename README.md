@@ -9,6 +9,7 @@ Log data visualization.
 ![Kibana dashboard](https://github.com/Johnkayode/log-aggregator/blob/main/docs/kibana.png)
 
 ## Run Project
+- Set up `.env` variables
 - Run `docker run --build` to build and run the containers
 - Open `localhost:5601` to view the Kibana dashboard
 - Create data views for the logs.
