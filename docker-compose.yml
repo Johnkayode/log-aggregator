@@ -59,14 +59,17 @@ services:
     - 5044:5044
    volumes:
      - logstash-data:/usr/share/logstash/data
-     - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+     - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
    environment:
      - xpack.monitoring.enabled=false
      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
 
   logger:
-    build: .
+    build:
+      context: ./src
+      dockerfile: Dockerfile
     depends_on:
+      - elasticsearch
       - kafka
     environment:
       - KAFKA_BROKER=kafka:9092
